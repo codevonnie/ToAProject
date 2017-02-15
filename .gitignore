@@ -6,6 +6,9 @@
 *.scm#*
 .#*.scm
 
+#DrRacket file extension
+.bak
+
 # =========================
 # Operating System Files
 # =========================
