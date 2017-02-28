@@ -27,3 +27,15 @@ An example of the game would be the random list [100, 25, 2, 8, 3, 4] with a tar
 * 25 minus 3 gives 22
 * 800 minus 22 gives the target number of 778
 
+###Algorithm Building
+
+There are a number of steps I am taking in trying to figure out an algorithm to solve this problem.
+
+1. Simplify the problem 
+ * Try to work out the solution using two numbers and an obtainable target number
+ * The numbers I am working with are (5, 25) with a target number of 125
+ * Get all possible combinations of the number list i.e. (5, 25) (25, 5)
+ * Get all possible combinations of the above lists with each of the operators (+ - * /)
+ * Work out all the possible calculations
+ * Check which of the calculations give an answer equal to the target number
+ * Output all solutions
