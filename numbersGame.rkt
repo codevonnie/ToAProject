@@ -27,7 +27,7 @@
 ;(combinations nums 2)
 
 ; prints out '((+ 5) (+ 25) (- 5) (- 25) (* 5) (* 25) (/ 5) (/ 25))
-(define all (cartesian-product ops nums))
+;(define all (cartesian-product ops nums))
 ;all
 
 ; ********* INFINTE LOOP **************
@@ -45,24 +45,20 @@
 ; allCart
 
 
-; define namespace to use eval on allCart list
-(define ns (make-base-namespace))
+; TESTING METHOD TO GET LIST OF POSSIBLE COMBINATIONS OF NUMBERS AND OPERATORS WITHOUT
+; HARDCODING AS ABOVE
 
-; function that checks if current calculation is equal to target number
-; returns calculation if it is or 0 if it is not equal
-;(define (checkTarget a)
-;  (if (equal? t (eval a ns))
-;      a
-;      null
-;      ))
-
-; recursive function that takes in the list of possible calculations, calls checkTarget
-; function on each calculation and fills a second list with the solutions (if any)
-;(define (getList l a)
+;(define (getCartProd l a)
 ;  (if (null? l)
 ;      a
-;      (getList (cdr l)(cons (checkTarget(car l)) a))))
+;      (getCartProd (cdr l)(cons (cartesian-product ops (car (cdr l)) (car l)) a))))
+;
+;(define allCart (getCartProd num null))
 
+
+
+; define namespace to use eval on allCart list
+(define ns (make-base-namespace))
 
 ; recursive function that takes in list of all possible calculations, evals each and
 ; checks if it is equal to the target number.  If it is, add to list and recursively
@@ -86,7 +82,6 @@
 answers
 
 
-      
 
 
 
