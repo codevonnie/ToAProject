@@ -48,41 +48,53 @@
 ; define namespace to use eval on allCart list
 (define ns (make-base-namespace))
 
-;; recursive function that takes in the full combination of numbers and operators list and fills a second list with answers
+; function that checks if current calculation is equal to target number
+; returns calculation if it is or 0 if it is not equal
+;(define (checkTarget a)
+;  (if (equal? t (eval a ns))
+;      a
+;      null
+;      ))
+
+; recursive function that takes in the list of possible calculations, calls checkTarget
+; function on each calculation and fills a second list with the solutions (if any)
 ;(define (getList l a)
 ;  (if (null? l)
 ;      a
-;      (getList (cdr l)(cons (eval (car l) ns) a))))
-
-; recursive function that checks if target value is in list of answers
-;(define (checkTarget l a t)
-;  (if (null? l)
-;      a
-;      (checkTarget (cdr l)(cons (equal? t (car l)) a) t)))
+;      (getList (cdr l)(cons (checkTarget(car l)) a))))
 
 
-; function that checks if current calculation is equal to target number - returns calculation if it is or 0 if it is not equal
-(define (checkTarget a)
-  (if (equal? t (eval a ns))
-      a
-      null
-      ))
-
-; recursive function that takes in the full combination of numbers and operators list and fills a second list with answers
+; recursive function that takes in list of all possible calculations, evals each and
+; checks if it is equal to the target number.  If it is, add to list and recursively
+; call itself else don't add anything to list and call itself
 (define (getList l a)
   (if (null? l)
       a
-      (getList (cdr l)(cons (checkTarget(car l)) a))))
+      (if (equal? t (eval (car l) ns))
+         (getList (cdr l)(cons (car l) a))
+         (getList (cdr l) a))))
+       
 
 
 ; define function to call that automatically fills in null list for getList
-(define (gList l) (getList l null))
+(define (returnList l) (getList l null))
 
 ; define variable answers to be the returned list from getList function
-(define answers (gList allCart))
+(define answers (returnList allCart))
 
 ; print answers
 answers
+
+
+      
+
+
+
+
+
+
+
+
 
 ; expression finds first example of element and returns it
 ;(findf (lambda (arg)
