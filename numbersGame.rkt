@@ -11,39 +11,25 @@
 (define t 125)
 
 
-; Get all permutations of list of 2 with operator
-; ********* INFINTE LOOP **************
-;(permutations (list (+ a b)(+ b a)(- a b)(- b a)(* a b)(* b a)(/ a b)(/ b a)))
+; shuffle number list for selection of 6 numbers
+(define possNums (shuffle numList))
 
-; print out all possible combinations hard coded
-(define something (list (+ a b)(+ b a)(- a b)(- b a)(* a b)(* b a)(/ a b)(/ b a)))
-;something
+; function to take 6 numbers from the shuffled list of numbers
+(define (getNumList l a)
+  (if (= (length a) 3)
+      a
+      (getNumList (cdr l)(cons (car l) a))))
 
-
-; prints out '(( (+)(-)(+ -)(*)(+ *)(- *)(+ - *)(/)(+ /)(- /)(+ - /)(* /)(+ * /)(- * /)(+ - * /))
-;(combinations ops)
-
-; '((5 25))
-;(combinations nums 2)
-
-; prints out '((+ 5) (+ 25) (- 5) (- 25) (* 5) (* 25) (/ 5) (/ 25))
-;(define all (cartesian-product ops nums))
-;all
-
-; ********* INFINTE LOOP **************
-;(permutations all)
+; returned number list assigned to nList
+(define nList (getNumList possNums null))
 
 ; prints out '((5 25) (25 5))
-(define num (permutations (list 5 25)))
-;num
-
-; prints out '((+ (5 25)) (+ (25 5)) (- (5 25)) (- (25 5)) (* (5 25)) (* (25 5)) (/ (5 25)) (/ (25 5)))
-;(cartesian-product ops num)
+(define num (permutations nList))
+num
 
 ; prints out '((+ 5 5)(+ 5 25)(+ 25 5)(+ 25 25)(- 5 5)(- 5 25)(- 25 5)(- 25 25)(* 5 5)(* 5 25)(* 25 5)(* 25 25)(/ 5 5)(/ 5 25)(/ 25 5)/ 25 25))
-(define allCart (cartesian-product ops (list 5 25) (list 5 25)))
-; allCart
-
+(define allCart (cartesian-product ops num))
+ allCart
 
 ; TESTING METHOD TO GET LIST OF POSSIBLE COMBINATIONS OF NUMBERS AND OPERATORS WITHOUT
 ; HARDCODING AS ABOVE
@@ -51,11 +37,11 @@
 ;(define (getCartProd l a)
 ;  (if (null? l)
 ;      a
-;      (getCartProd (cdr l)(cons (cartesian-product ops (car (cdr l)) (car l)) a))))
+;      (getCartProd (cdr l)(append (cartesian-product ops (car l)) a))))
 ;
-;(define allCart (getCartProd num null))
+;(define allCartP (getCartProd num null))
 
-
+;allCartP
 
 ; define namespace to use eval on allCart list
 (define ns (make-base-namespace))
@@ -76,10 +62,10 @@
 (define (returnList l) (getList l null))
 
 ; define variable answers to be the returned list from getList function
-(define answers (returnList allCart))
+;(define answers (returnList allCart))
 
 ; print answers
-answers
+;answers
 
 
 
@@ -88,7 +74,7 @@ answers
 
 
 
-
+;*********************NOT BEING USED ATM*********************************
 
 
 ; expression finds first example of element and returns it
@@ -96,5 +82,27 @@ answers
 ;              (= arg t))
 ;       answers)
 
+; Get all permutations of list of 2 with operator
+; ********* INFINTE LOOP **************
+;(permutations (list (+ a b)(+ b a)(- a b)(- b a)(* a b)(* b a)(/ a b)(/ b a)))
+
+; print out all possible combinations hard coded
+;(define something (list (+ a b)(+ b a)(- a b)(- b a)(* a b)(* b a)(/ a b)(/ b a)))
+;something
 
 
+; prints out '(( (+)(-)(+ -)(*)(+ *)(- *)(+ - *)(/)(+ /)(- /)(+ - /)(* /)(+ * /)(- * /)(+ - * /))
+;(combinations ops)
+
+; '((5 25))
+;(combinations nums 2)
+
+; prints out '((+ 5) (+ 25) (- 5) (- 25) (* 5) (* 25) (/ 5) (/ 25))
+;(define all (cartesian-product ops nums))
+;all
+
+; ********* INFINTE LOOP **************
+;(permutations all)
+
+; prints out '((+ (5 25)) (+ (25 5)) (- (5 25)) (- (25 5)) (* (5 25)) (* (25 5)) (/ (5 25)) (/ (25 5)))
+;(cartesian-product ops num)
