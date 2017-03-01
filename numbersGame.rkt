@@ -3,33 +3,37 @@
 ; Theory of Algorithms 4th Year Project
 ; Author Yvonne Grealy
 
-(define ops '(+ - * /))
-(define nums (list 5 25))
+(define ops '(+ - * /)) ; list of operators
+;(define nums (list 5 25))
+; all possible numbers for number list
 (define numList (list 1 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10 25 50 75 100))
-(define a 5)
-(define b 25)
-(define t 125)
-
+; min and max values for target number
+(define low 101) 
+(define high 999)
 
 ; shuffle number list for selection of 6 numbers
 (define possNums (shuffle numList))
 
-; function to take 6 numbers from the shuffled list of numbers
+; function to take n numbers from the shuffled list of numbers
 (define (getNumList l a)
-  (if (= (length a) 3)
+  (if (= (length a) 3) ; last number is how many numbers will be taken from list
       a
-      (getNumList (cdr l)(cons (car l) a))))
+      (getNumList (cdr l)(cons (car l) a)))); take first number
 
 ; returned number list assigned to nList
 (define nList (getNumList possNums null))
 
+
+(define target (random low high))
+target
+
 ; prints out '((5 25) (25 5))
 (define num (permutations nList))
-num
+;num
 
 ; prints out '((+ 5 5)(+ 5 25)(+ 25 5)(+ 25 25)(- 5 5)(- 5 25)(- 25 5)(- 25 25)(* 5 5)(* 5 25)(* 25 5)(* 25 25)(/ 5 5)(/ 5 25)(/ 25 5)/ 25 25))
 (define allCart (cartesian-product ops num))
- allCart
+; allCart
 
 ; TESTING METHOD TO GET LIST OF POSSIBLE COMBINATIONS OF NUMBERS AND OPERATORS WITHOUT
 ; HARDCODING AS ABOVE
@@ -52,7 +56,7 @@ num
 (define (getList l a)
   (if (null? l)
       a
-      (if (equal? t (eval (car l) ns))
+      (if (equal? target (eval (car l) ns))
          (getList (cdr l)(cons (car l) a))
          (getList (cdr l) a))))
        
