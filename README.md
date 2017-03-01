@@ -34,8 +34,17 @@ There are a number of steps I am taking in trying to figure out an algorithm to 
 1. Simplify the problem
  * Try to work out the solution using two numbers and an obtainable target number
  * The numbers I am working with are (5, 25) with a target number of 125
-  - [ ] Get all possible combinations of the number list i.e. (5, 25) (25, 5)
-  - [ ] Get all possible combinations of the above lists with each of the operators (+ - * /)
-  - [ ] Work out all the possible calculations
-  - [ ] Check which of the calculations give an answer equal to the target number
-  - [ ] Output all solutions
+  - [x] Get all possible combinations of the number list i.e. (5, 25) (25, 5)
+  - [x] Get all possible combinations of the above lists with each of the operators (+ - * /)
+  - [x] Work out all the possible calculations
+  - [x] Check which of the calculations give an answer equal to the target number
+  - [x] Output all solutions
+2. Extra functions
+  - [x] Function to get random numbers from number list (how many numbers can be selected can be amended)
+  - [ ] Function to get random target number from 101-999
+3. Add extra number to number list and amend current solution as required
+ - [ ] Get all possible combinations of number list with extra number
+ - [ ] Get all possible combinations of number lists and operators - will require changes to functions (look at Reverse Polish Notation)
+ - [ ] Work out all possible calculations
+ - [ ] Check which calculations (if any) equal target number
+ - [ ] Output all solutions
