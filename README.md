@@ -1,7 +1,7 @@
 # Theory of Algorithms 4th Year Project
 ## Author: Yvonne Grealy
 
-###Introduction
+### Introduction
 
 This project is for the module Theory of Algorithms for 4th year BSc in Software Development at Galway Mayo Institute of Technology.  It is written in the Racket functional programming language.
 
@@ -27,7 +27,7 @@ An example of the game would be the random list [100, 25, 2, 8, 3, 4] with a tar
 * 25 minus 3 gives 22
 * 800 minus 22 gives the target number of 778
 
-###Algorithm Building
+### Algorithm Building
 
 There are a number of steps I am taking in trying to figure out an algorithm to solve this problem.
 
@@ -41,7 +41,7 @@ There are a number of steps I am taking in trying to figure out an algorithm to 
   - [x] Output all solutions
 2. Extra functions
   - [x] Function to get random numbers from number list (how many numbers can be selected can be amended)
-  - [ ] Function to get random target number from 101-999
+  - [x] Function to get random target number from 101-999
 3. Add extra number to number list and amend current solution as required
  - [ ] Get all possible combinations of number list with extra number
  - [ ] Get all possible combinations of number lists and operators - will require changes to functions (look at Reverse Polish Notation)
