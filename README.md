@@ -48,3 +48,23 @@ There are a number of steps I am taking in trying to figure out an algorithm to 
  - [ ] Work out all possible calculations
  - [ ] Check which calculations (if any) equal target number
  - [ ] Output all solutions
+ 
+ ### Reverse Polish Notation
+ 
+ I have been trying to work on a solution for a list greater than 2 numbers which has proved challenging.  I have tried making a function that would go through all the possible combinations of 3 operands and 2 operators as seen below:
+ 
+```scheme
+(define (getList l a)
+  (if (null? l)
+      a
+      (if (equal? target (eval (car l) ns))
+         (getList (cdr l)(cons (car l) a))
+         (getList (cdr l) a))))
+ ```
+ However, I'm having trouble with this because each permutation of operands and operators is a list containing another list and the two operators so the eval is not working correctly.
+ 
+I have begun to look at Reverse Polish Notation to try to get all permutations of operators and operands.  
+
+ 
+ ### Information Sources
+ The Scheme documentations found [here](http://schemers.org/Documents/Standards/R5RS//HTML/r5rs-Z-H-15.html#%_index_start) has been invaluable while working on this project!
