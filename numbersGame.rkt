@@ -23,7 +23,7 @@
 ; returned number list assigned to nList
 (define nList (getNumList possNums null))
 
-
+; target number generated using random function with range (101-999)
 (define target (random low high))
 target
 
@@ -31,9 +31,11 @@ target
 (define num (permutations nList))
 ;num
 
+;(cartesian-product ops ops num)
+
 ; prints out '((+ 5 5)(+ 5 25)(+ 25 5)(+ 25 25)(- 5 5)(- 5 25)(- 25 5)(- 25 25)(* 5 5)(* 5 25)(* 25 5)(* 25 25)(/ 5 5)(/ 5 25)(/ 25 5)/ 25 25))
-(define allCart (cartesian-product ops num))
-; allCart
+(define allCart (cartesian-product num ops ops))
+ allCart
 
 ; TESTING METHOD TO GET LIST OF POSSIBLE COMBINATIONS OF NUMBERS AND OPERATORS WITHOUT
 ; HARDCODING AS ABOVE
@@ -44,7 +46,7 @@ target
 ;      (getCartProd (cdr l)(append (cartesian-product ops (car l)) a))))
 ;
 ;(define allCartP (getCartProd num null))
-
+;
 ;allCartP
 
 ; define namespace to use eval on allCart list
@@ -70,6 +72,53 @@ target
 
 ; print answers
 ;answers
+
+;(cdr allCart)
+;(equal? target (eval (car allCart) ns))
+
+
+
+
+;-------------------RPN STUFF------------------------
+
+(define output (list 1 2 3))
+(define start-perm (list -1 -1 -1 -1 1 1 1 1))
+
+(define perms (remove-duplicates (permutations start-perm)))
+
+(define (make-rpn l)
+  (append (list 1 1) l (list -1)))
+
+;(make-rpn (car  perms))
+
+(define permsList (map make-rpn perms))
+
+(define (valid-rpn? expression [stack 0]) ;[arg 0] optional argument defaults to 0 if not passed
+  (if (null? expression)
+      (if (= stack 1) #t #f)
+      (if (= (car expression) 1)
+          (valid-rpn? (cdr expression) (+ 1 stack))
+          (valid-rpn? (cdr expression)(- 1 stack)) ;decrement s by one
+          )))
+
+(define myList (map valid-rpn? permsList))
+myList
+
+;permsList
+
+; add to readme - how many possible combinations of operators and numbers 11! = 39916800 with duplicates
+; 462 distinct combinations
+
+;(define ops(list '+ '- '* '/))
+;
+;(define opsList (cartesian-product ops ops ops ops ops))
+;(define numList (permutations (list 25 100 50 1 1 2)))
+;
+;(define comboList (cartesian-product opsList numList))
+;comboList
+
+
+
 
 
 
