@@ -68,10 +68,10 @@ target
 (define (returnList l) (getList l null))
 
 ; define variable answers to be the returned list from getList function
-;(define answers (returnList allCart))
+(define answers (returnList allCart))
 
 ; print answers
-;answers
+answers
 
 ;(cdr allCart)
 ;(equal? target (eval (car allCart) ns))
@@ -93,12 +93,10 @@ target
 
 (define permsList (map make-rpn perms))
 
-(define (valid-rpn? expression [stack 0]) ;[arg 0] optional argument defaults to 0 if not passed
-  (if (null? expression)
-      (if (= stack 1) #t #f)
-      (if (= (car expression) 1)
-          (valid-rpn? (cdr expression) (+ 1 stack))
-          (valid-rpn? (cdr expression)(- 1 stack)) ;decrement s by one
+(define (valid-rpn? expression [s 0] [stack '()]) ;[arg 0] optional argument defaults to 0 if not passed
+  (if (null? expression) ;if expression list is empty
+      (if (= s 1) stack #f) ;if stack is equal to 1 return stack else return false
+      (if (= (car expression) 1) ;if element is 1
           )))
 
 (define myList (map valid-rpn? permsList))
