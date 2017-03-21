@@ -97,6 +97,8 @@ answers
   (if (null? expression) ;if expression list is empty
       (if (= s 1) stack #f) ;if stack is equal to 1 return stack else return false
       (if (= (car expression) 1) ;if element is 1
+          (valid-rpn? (cdr expression)(+ 1 s)(append stack (list (car expression)))) ;add 1 to s, add car of exp to stack and recursive call
+          (valid-rpn? (cdr expression)(- 1 s)(append stack (list (car expression)))) ;take 1 from s, add car of exp to stack and recursive call
           )))
 
 (define myList (map valid-rpn? permsList))
