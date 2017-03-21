@@ -42,17 +42,33 @@ There are a number of steps I am taking in trying to figure out an algorithm to 
 2. Extra functions
   - [x] Function to get random numbers from number list (how many numbers can be selected can be amended)
   - [x] Function to get random target number from 101-999
-3. Add extra number to number list and amend current solution as required
- - [ ] Get all possible combinations of number list with extra number
- - [ ] Get all possible combinations of number lists and operators - will require changes to functions (look at Reverse Polish Notation)
- - [ ] Work out all possible calculations
+3. Reverse Polish Notation
+ - [x] Get all possible combinations of number list with 6 numbers
+ - [x] Get all possible combinations of number lists and operators 
+ - [x] Get all valid RPN lists using substitutes for operands and operators (1 denotes operand, 
+ - [ ] Replace valid RPN list with actual operands and operators
+ - [ ] Write function to calculate each list
  - [ ] Check which calculations (if any) equal target number
  - [ ] Output all solutions
  
  ### Reverse Polish Notation
  
-I have begun to look at Reverse Polish Notation to try to get all permutations of operators and operands.  
+I have begun to look at Reverse Polish Notation to try to get all permutations of operators and operands.  Reverse Polish Notation (RPN) is used to represent expressions where the operator is placed after the operands.  RPN allows the expressions to be written without brackets.  An RPN expression is carried out using a stack like notion where a operand will be pushed to the stack and an operator will cause 2 operands to be popped off the stack and the operator will be applied to the two numbers.  The result is then pushed back on the stack.  If an operator occurs and there is not 2 operands on the stack to be popped then the expression is not a valid RPN expression.  This also applies if the first arguement in the expression is an operator.   
+
+And example of a valid RPN can be seen below:
+
+> 8 2 4 + *
+
+This expression is read from left to right and so it will be calculated as follows:
+
+* 8 is pushed to the stack **[stack: 8]**
+* 2 is pushed to the stack **[stack: 2 8]**
+* 4 is pushed to the stack **[stack: 4 2 8]**
+* \+ means 4 and 2 are popped from the stack and added together. The result 6 is pushed to the stack **[stack: 6 8]**
+* \* causes 6 and 8 to be popped off the stack and multiplied by each other. The result 48 is pushed to the stack **[stack: 48]**
+* The expression is finished so the result is popped off the stack **[stack: ]**
 
  
  ### Information Sources
- The Scheme documentations found [here](http://schemers.org/Documents/Standards/R5RS//HTML/r5rs-Z-H-15.html#%_index_start) has been invaluable while working on this project!
+ * The Racket documentation found [here](https://docs.racket-lang.org/reference/index.html) and the Scheme documentations found [here](http://schemers.org/Documents/Standards/R5RS//HTML/r5rs-Z-H-15.html#%_index_start) have been invaluable while working on this project!
+ * Reverse Polish Notation information [click](http://mathworld.wolfram.com/ReversePolishNotation.html)
