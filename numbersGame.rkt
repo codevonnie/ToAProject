@@ -3,9 +3,12 @@
 ; Theory of Algorithms 4th Year Project
 ; Author Yvonne Grealy
 
-(define ops '(+ - * /)) ; list of operators
+;(define ops '(+ - * /)) ; list of operators
+(define ops '(+ - *)) ; list of operators
+
 ; all possible numbers for number list
 (define nums (list 1 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10 25 50 75 100))
+
 ; min and max values for target number
 (define low 101) 
 (define high 999)
@@ -19,78 +22,85 @@
       a
       (getNumList (cdr l)(cons (car l) a)))); take first number
 
-; returned number list assigned to nList
-(define nList (getNumList possNums null))
-
-; get all possible permutations of numbers in lest
-(define numList (remove-duplicates (permutations nList)))
-
 ; target number generated using random function with range (101-999)
 (define target (random low high))
-target
+(printf "Target number: ~v" target)
 
+; returned number list assigned to nList
+(define nList (getNumList possNums null))
+(printf "   List of numbers: ~v" nList)
+
+; get all possible permutations of numbers in list
+(define numList (remove-duplicates (permutations nList)))
 
 ; get all possible variants of operators
 (define operators (cartesian-product ops ops ops ops ops))
 
-operators
-
-
 ; get list of possible operators and numbers
-(define comboList (cartesian-product operators numList))
+(define comboList (cartesian-product numList operators))
 
+; make one list of each combination of operands and operators
+(define (flattenList l)
+  (flatten l))
 
-;-------------------RPN STUFF------------------------
+(define tempList (map flattenList comboList))
 
-; Reverse Polish Notation list : 1 represents operands -1 represents operators
-(define start-perm (list -1 -1 -1 -1 1 1 1 1))
+; Input list too long - this will not run!!!!!!
+;(define permus (remove-duplicates (permutations tempList)))
 
-; get all permutations of RPN list and remove any duplicates
-(define perms (remove-duplicates (permutations start-perm)))
-
-; function to make sure each RPN entry begins with 2 operands and ends with an operator
-(define (make-rpn l)
-  (append (list 1 1) l (list -1)))
-
-; permsList contains all the RPN entries
-(define permsList (map make-rpn perms))
-
-; function to check if RPN lists are valid
-(define (valid-rpn? expression [s 0] [stack '()]) ;[s 0] - stack counter, starts at default 0 [stack '()] - empty stack list, defaults as empty
-  (if (null? expression) ;if expression list is empty
-      (if (= s 1) stack #f) ; and if stack is equal to 1 return stack else return false
-      (if (= (car expression) 1) ;if element is equal to 1
-          (valid-rpn? (cdr expression)(+ 1 s)(append stack (list (car expression)))) ;add 1 to s, add car of exp to stack and recursively call function
-          (valid-rpn? (cdr expression)(- 1 s)(append stack (list (car expression)))) ;take 1 from s, add car of exp to stack and recursive call function
-          )))
-
-; myList contains all valid RPN and #f values
-(define myList (map valid-rpn? permsList))
-; removes all #f entries from list so only valid RPN remains
-(define validRPN (remove* (list #f) myList))
-
+;(define (valid-rpn? expression [s 0] [stack '()]) ;[arg 0] optional argument defaults to 0 if not passed
+;  (if (null? expression) ;if expression list is empty
+;      (if (= s 1) #f s) ;if stack is equal to 1 return stack else return false
+;      (if (number? (car expression)) ;if element is a number
+;          (valid-rpn? (cdr expression)(+ 1 s)(append stack (list (car expression)))) ;add 1 to s, add car of exp to stack and recursive call
+;          (valid-rpn? (cdr expression)(- 1 s)(append stack (list (car expression)))) ;take 1 from s, add car of exp to stack and recursive call
+;          )))
+;
+;(define myList (map valid-rpn? tempList))
+;(define validRPN (remove* (list #f) myList))
 ;validRPN
 
-; function to replace all valid RPN list of 1 and -1 with actual operands and operators
-(define (rpnImplementer l a [imp '()])
-  (if (null? l)
-      imp
-      (if (= (car l) 1)
-          (rpnImplementer (cdr validRPN)(append imp (list (caar l))))
-          (rpnImplementer (cdr validRPN)(append imp (list (car l))))
-      )))
-
-;(define impl (map rpnImplementer comboList validRPN))
-
-;(length impl)
-
-(length validRPN)
+;(define l (map stuff comboList))
 
 
 
-; prints out '((+ 5 5)(+ 5 25)(+ 25 5)(+ 25 25)(- 5 5)(- 5 25)(- 25 5)(- 25 25)(* 5 5)(* 5 25)(* 25 5)(* 25 25)(/ 5 5)(/ 5 25)(/ 25 5)/ 25 25))
-;(define allCart (cartesian-product num ops ops))
-; allCart
+;https://gist.github.com/darkf/3335005
+;(define (eval-rpn expr [stack '()])
+;  (cond
+;    [(empty? expr) stack] ;; we're done, return the stack
+;    [(number? (car expr)) ;; number
+;      (eval-rpn (cdr expr) (cons (car expr) stack))] ;; push number on the stack
+;    [(op? (car expr)) ;; operation
+;      (let* ([op (car expr)]
+;             [rhs (car stack)]
+;             [lhs (cadr stack)]
+;             [result ((op->procedure op) lhs rhs)]) ;; eval operation
+;       (eval-rpn (cdr expr) (cons result (cddr stack))))] ;; push result; pop lhs/rhs
+;    [else (error "unknown symbol")]))
+
+;https://rosettacode.org/wiki/Parsing/RPN_calculator_algorithm#Racket
+(define (calculate-RPN expr)
+  (for/fold ([stack '()]) ([token expr])
+    ;(printf "~a\t -> ~a~N" token stack)
+    (match* (token stack)
+     [((? number? n) s) (cons n s)]
+     [('+ (list x y s ___)) (cons (+ x y) s)]
+     [('- (list x y s ___)) (cons (- y x) s)]
+     [('* (list x y s ___)) (cons (* x y) s)]
+     ;[('/ (list x y s ___)) (cons (/ y x) s)]
+     [(x s) (error "calculate-RPN: Cannot calculate the expression:" 
+                   (reverse (cons x s)))])))
+
+(define calculate (map calculate-RPN tempList))
+
+; check if the target is equal to any of the outputs from calculate-RPN function
+(define (isTarget? exp)
+  (if (null? exp)
+      exp
+      (if (equal? target (car exp)) #t #f)))
+
+(define checkTarget (map checkTarget calculate))
+
 
 ; TESTING METHOD TO GET LIST OF POSSIBLE COMBINATIONS OF NUMBERS AND OPERATORS WITHOUT
 ; HARDCODING AS ABOVE
@@ -103,6 +113,7 @@ operators
 ;(define allCartP (getCartProd num null))
 ;
 ;allCartP
+; check if the target is equal to any of the outputs from calculate-RPN function
 
 ; define namespace to use eval on allCart list
 (define ns (make-base-namespace))
@@ -132,22 +143,18 @@ operators
 ;(equal? target (eval (car allCart) ns))
 
 
+;**********************RPN STUFF**********************************
 
+(define start-perm (list -1 -1 -1 -1 1 1 1 1))
 
-;-------------------RPN STUFF------------------------
+(define perms (remove-duplicates (permutations start-perm)))
 
-;(define output (list 1 2 3))
-;(define start-perm (list -1 -1 -1 -1 1 1 1 1))
-;
-;(define perms (remove-duplicates (permutations start-perm)))
-;
 ;(define (make-rpn l)
 ;  (append (list 1 1) l (list -1)))
 ;
-;;(make-rpn (car  perms))
-;
 ;(define permsList (map make-rpn perms))
-;
+
+
 ;(define (valid-rpn? expression [s 0] [stack '()]) ;[arg 0] optional argument defaults to 0 if not passed
 ;  (if (null? expression) ;if expression list is empty
 ;      (if (= s 1) stack #f) ;if stack is equal to 1 return stack else return false
@@ -157,25 +164,27 @@ operators
 ;          )))
 ;
 ;(define myList (map valid-rpn? permsList))
-;myList
+;(define validRPN (remove* (list #f) myList))
 
-;permsList
+;validRPN
 
-; add to readme - how many possible combinations of operators and numbers 11! = 39916800 with duplicates
-; 462 distinct combinations
-
-;(define ops(list '+ '- '* '/))
-;
-;(define opsList (cartesian-product ops ops ops ops ops))
-;(define numList (permutations (list 25 100 50 1 1 2)))
-;
-;(define comboList (cartesian-product opsList numList))
 ;comboList
 
+; try to convert 1s and -1 lists to operands and operators
+;(define (rpnImplementer l a [imp '()])
+;  (if (null? l)
+;      imp
+;      (if (= (car l) 1)
+;          (rpnImplementer (cdr validRPN)(append imp (list (caar l))))
+;          (rpnImplementer (cdr validRPN)(append imp (list (car l))))
+;      )))
+;
+;(define impl (map rpnImplementer comboList validRPN))
 
+;(length impl)
 
-
-
+;(length validRPN)
+;
 
 
 
