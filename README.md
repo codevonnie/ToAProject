@@ -27,6 +27,12 @@ An example of the game would be the random list [100, 25, 2, 8, 3, 4] with a tar
 * 25 minus 3 gives 22
 * 800 minus 22 gives the target number of 778
 
+ ### Problems Faced & Project Outcome
+ Unfortunately I have been unable to come up with a solution to the problem posed in this project.  Below are a list of issues I faced that had I been able to work out, may have led to a solution:
+ * I was able to get a list of all the possible combinations of operators and a list of all possible operands.  However, I was unable to get all permutations of both of these combined - it was 11! (which is 39916800 with duplicates) and DrRacket was unable to handle the size of the list and could not carry it out.  Had I been able to get this list, it would have been possible to then evaluate the list.  The best I could do with this was to get a list beginning with the operands and ending with operators to satisfy a valid RPN condition but this did not result in all possible solutions.
+ * Using the method discussed in class, I was able to create all valid RPNs using 1s for operands and -1 for operators but I was unable to replace this with actual operands and operators. I tried constructing a function that would take in the valid RPN as 1s and -1 to replace with numbers and operators but I was unable to do this as using map, I needed both lists to be the same length which they were not (valid RPN list was less than 20 and as previously mentioned the possible combinations list was significantly higher!).
+ * I found multiple online resources to evaluate valid RPN [here](https://gist.github.com/darkf/3335005) and [here](https://rosettacode.org/wiki/Parsing/RPN_calculator_algorithm#Racket).
+
 ### Algorithm Building
 
 There are a number of steps I am taking in trying to figure out an algorithm to solve this problem.
